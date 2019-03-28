@@ -6,39 +6,36 @@
           <div>名称</div>
         </el-col>
         <el-col :span="18">
+          {{item.name}}
+        </el-col>
+      </el-row>
+
+      <el-row style="width:100%" :gutter="20">
+        <el-col :span="6" style>
+          <div>值</div>
+        </el-col>
+        <el-col :span="18">
           <el-input
-                  placeholder="最大长度100"
-            v-model="item.name"
-            clearable
-            :readonly="!alterable"
+                  placeholder="最大长度1024"
+                  v-model="item.value"
+                  type="textarea"
+                  clearable
+                  :readonly="!alterable"
           ></el-input>
         </el-col>
       </el-row>
-
-      <el-row style="width:100%;margin-top:10px;" :gutter="20">
-        <el-col :span="6">
-          <div>排序号</div>
+      <el-row style="width:100%" :gutter="20">
+        <el-col :span="6" style>
+          <div>备注</div>
         </el-col>
         <el-col :span="18">
-          <el-input-number
-            v-model="item.orderNo"
-            :step=0.5
-            :disabled="!alterable"
-            :min="-99999"
-            :max="99999"
-            placeholder="默认9999"
-            label="描述文字"
-          ></el-input-number>
+          <el-input
+                  v-model="item.remark"
+                  type="textarea"
+                  clearable
+                  readonly
+          ></el-input>
         </el-col>
-      </el-row>
-
-      <el-row style="width:100%;margin-top:10px;" :gutter="20">
-        <el-col :span="6">
-          <div>添加时间</div>
-        </el-col>
-        <el-col :span="18">{{
-          item.addTime?thoseUtil.formatDate("yyyy-MM-dd hh:mm:ss", new Date(item.addTime)):''
-        }}</el-col>
       </el-row>
 
       <el-row style="width:100%;margin-top:10px;" :gutter="20">
@@ -49,6 +46,8 @@
           item.alterTime?thoseUtil.formatDate("yyyy-MM-dd hh:mm:ss", new Date(item.alterTime)):''
         }}</el-col>
       </el-row>
+
+
 
       <el-row style="width:100%;margin-top:30px;align:center;" :gutter="20">
         <div :style="{ display: other.btns1 }">
@@ -76,9 +75,9 @@ export default {
     refreshItem() {
       this.axios
         .post(
-          "/zhongan/maintain/producttypemanage/item",
+          "/zhongan/maintain/sysparammanage/item",
           this.axios.qs.stringify({
-            itemId: this.$route.params.itemId,
+            itemCode: this.$route.params.itemCode,
             token: this.$store.state.token
           })
         )
@@ -104,7 +103,7 @@ export default {
       new Promise(a=> {
         this.axios
           .post(
-            "/zhongan/maintain/producttypemanage/itemalter",
+            "/zhongan/maintain/sysparammanage/itemalter",
             this.axios.qs.stringify({...this.item,token:this.$store.state.token})
           )
           .then(response => {
@@ -120,12 +119,6 @@ export default {
             }
           });
       }).then(()=> {
-        this.$message({
-          showClose: true,
-          message: '修改成功',
-          type: "success"
-        });
-        this.jsonDB.productType.refresh()
         this.other.btns1 = "";
         this.other.btns2 = "none";
         this.alterable = false;

@@ -59,6 +59,11 @@ let maintainModule = {
           else if (item.itemId == 6) item.path = "/adManage/index";
           else if (item.itemId == 7) item.path = "/maintainModuleManage/index";
           else if (item.itemId == 8) item.path = "/maintainUserManage/index";
+          else if (item.itemId == 9) item.path = "/clientUserManage/index";
+          else if (item.itemId == 15) item.path = "/clientVisitorMsgManage/index";
+          else if (item.itemId == 16) item.path = "/clientLogManage/index";
+          else if (item.itemId == 17) item.path = "/maintainLogManage/index";
+          else if (item.itemId == 18) item.path = "/sysparamManage/index";
       }
     });
     return _this._items;

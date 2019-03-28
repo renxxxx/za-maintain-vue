@@ -3,19 +3,6 @@
     <el-main>
       <el-row style="width:100%" :gutter="20">
         <el-col :span="6" style>
-          <div>用户名</div>
-        </el-col>
-        <el-col :span="18">
-          <el-input
-            placeholder="最大长度32"
-            v-model="item.username"
-            clearable
-            :readonly="!alterable"
-          ></el-input>
-        </el-col>
-      </el-row>
-      <el-row style="width:100%" :gutter="20">
-        <el-col :span="6" style>
           <div>姓名</div>
         </el-col>
         <el-col :span="18">
@@ -97,30 +84,6 @@
 
       <el-row style="width:100%;margin-top:10px;" :gutter="20">
         <el-col :span="6">
-          <div>模块</div>
-        </el-col>
-        <el-col :span="18">
-          <el-select
-            v-model="item.moduleIds"
-            :disabled="!alterable"
-            clearable
-            multiple
-            placeholder="请选择"
-          >
-            <el-option
-              v-for="item in jsonDB.maintainModule.itemsLineTree"
-              :key="item.itemId"
-              :label="thoseUtil.strRepeat('-', item.level) + item.name"
-              :value="item.itemId"
-            >
-              {{ thoseUtil.strRepeat("-", item.level) + item.name }}
-            </el-option>
-          </el-select>
-        </el-col>
-      </el-row>
-
-      <el-row style="width:100%;margin-top:10px;" :gutter="20">
-        <el-col :span="6">
           <div>注册时间</div>
         </el-col>
         <el-col :span="18">{{
@@ -179,7 +142,7 @@ export default {
     refreshItem() {
       this.axios
         .post(
-          "/zhongan/maintain/maintainusermanage/item",
+          "/zhongan/maintain/clientusermanage/item",
           this.axios.qs.stringify({
             itemId: this.$route.params.itemId,
             token: this.$store.state.token
@@ -196,7 +159,6 @@ export default {
             return;
           }
           this.item = data.data;
-          this.item.moduleIds = this.item.moduleIds?this.item.moduleIds.split(","):[];
         });
     },
     chosenHeadimg(dom) {
@@ -247,7 +209,7 @@ export default {
                     }
                     this.axios
                             .post(
-                                    "/zhongan/maintain/maintainusermanage/itemalter",
+                                    "/zhongan/maintain/clientusermanage/itemalter",
                                     this.axios.qs.stringify({
                                       itemId:this.item.itemId,
                                       pwd,
@@ -294,7 +256,7 @@ export default {
               .then(({ value }) => {
                 this.axios
                         .post(
-                                "/zhongan/maintain/maintainusermanage/itemalter",
+                                "/zhongan/maintain/clientusermanage/itemalter",
                                 this.axios.qs.stringify({
                                   itemId:this.item.itemId,
                                   frozenIf:1,
@@ -330,7 +292,7 @@ export default {
     }, unfreeze() {
       this.axios
               .post(
-                      "/zhongan/maintain/maintainusermanage/itemalter",
+                      "/zhongan/maintain/clientusermanage/itemalter",
                       this.axios.qs.stringify({
                         itemId:this.item.itemId,
                         frozenIf:0,
@@ -359,10 +321,9 @@ export default {
       new Promise(a => {
         this.axios
           .post(
-            "/zhongan/maintain/maintainusermanage/itemalter",
+            "/zhongan/maintain/clientusermanage/itemalter",
             this.axios.qs.stringify({
               ...this.item,
-              moduleIds: this.item.moduleIds.toString(),
               token: this.$store.state.token
             })
           )

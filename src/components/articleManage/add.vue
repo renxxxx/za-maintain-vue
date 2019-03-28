@@ -137,9 +137,9 @@
           <el-input-number
             v-model="item.orderNo"
             :step=0.5
-            :min=-1000
-            :max=99999
-            placeholder="默认99999"
+            :min="-99999"
+            :max="99999"
+            placeholder="默认9999"
           ></el-input-number>
         </el-col>
       </el-row>

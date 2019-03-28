@@ -27,8 +27,17 @@ import maintainModuleManageInfo from "./components/maintainModuleManage/info.vue
 import maintainUserManageIndex from "./components/maintainUserManage/index.vue";
 import maintainUserManageInfo from "./components/maintainUserManage/info.vue";
 import maintainUserManageAdd from "./components/maintainUserManage/add.vue";
-
-
+import clientUserManageIndex from "./components/clientUserManage/index.vue";
+import clientUserManageInfo from "./components/clientUserManage/info.vue";
+import clientUserManageAdd from "./components/clientUserManage/add.vue";
+import clientVisitorMsgManageIndex from "./components/clientVisitorMsgManage/index.vue";
+import clientVisitorMsgManageInfo from "./components/clientVisitorMsgManage/info.vue";
+import clientLogManageIndex from "./components/clientLogManage/index.vue";
+import clientLogManageInfo from "./components/clientLogManage/info.vue";
+import maintainLogManageIndex from "./components/maintainLogManage/index.vue";
+import maintainLogManageInfo from "./components/maintainLogManage/info.vue";
+import sysparamManageIndex from "./components/sysparamManage/index.vue";
+import sysparamManageInfo from "./components/sysparamManage/info.vue";
 import ElementUI from "element-ui";
 Vue.use(ElementUI);
 import "element-ui/lib/theme-chalk/index.css";
@@ -159,9 +168,47 @@ const routes = [
       }, {
         path: "/maintainUserManage/add",
         component: maintainUserManageAdd
+      }, {
+        path: "/clientUserManage/index",
+        component: clientUserManageIndex
       },
-
-
+      {
+        path: "/clientUserManage/info/:itemId",
+        component:clientUserManageInfo
+      }, {
+        path: "/clientUserManage/add",
+        component: clientUserManageAdd
+      }, {
+        path: "/clientVisitorMsgManage/index",
+        component: clientVisitorMsgManageIndex
+      },
+      {
+        path: "/clientVisitorMsgManage/info/:itemId",
+        component:clientVisitorMsgManageInfo
+      }
+      , {
+        path: "/clientLogManage/index",
+        component: clientLogManageIndex
+      },
+      {
+        path: "/clientLogManage/info/:itemId",
+        component:clientLogManageInfo
+      }
+      , {
+        path: "/maintainLogManage/index",
+        component: maintainLogManageIndex
+      },
+      {
+        path: "/maintainLogManage/info/:itemId",
+        component:maintainLogManageInfo
+      }, {
+        path: "/sysparamManage/index",
+        component: sysparamManageIndex
+      },
+      {
+        path: "/sysparamManage/info/:itemCode",
+        component:sysparamManageInfo
+      },
     ]
   }
 ];

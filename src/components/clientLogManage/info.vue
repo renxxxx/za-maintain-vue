@@ -3,32 +3,52 @@
     <el-main>
       <el-row style="width:100%" :gutter="20">
         <el-col :span="6" style>
-          <div>名称</div>
+          <div>用户ID</div>
         </el-col>
         <el-col :span="18">
           <el-input
-                  placeholder="最大长度100"
-            v-model="item.name"
+                  placeholder="最大长度32"
+                  v-model="item.userId"
+                  clearable
+                  :readonly="!alterable"
+          ></el-input>
+        </el-col>
+      </el-row>
+      <el-row style="width:100%" :gutter="20">
+        <el-col :span="6" style>
+          <div>用户标识</div>
+        </el-col>
+        <el-col :span="18">
+          <el-input
+                  placeholder="最大长度32"
+            v-model="item.userSign"
             clearable
             :readonly="!alterable"
           ></el-input>
         </el-col>
       </el-row>
 
-      <el-row style="width:100%;margin-top:10px;" :gutter="20">
-        <el-col :span="6">
-          <div>排序号</div>
+      <el-row style="width:100%" :gutter="20">
+        <el-col :span="6" style>
+          <div>日志内容</div>
         </el-col>
         <el-col :span="18">
-          <el-input-number
-            v-model="item.orderNo"
-            :step=0.5
-            :disabled="!alterable"
-            :min="-99999"
-            :max="99999"
-            placeholder="默认9999"
-            label="描述文字"
-          ></el-input-number>
+          <el-input
+                  placeholder="最大长度32"
+                  v-model="item.note"
+                  type="textarea"
+                  clearable
+                  :readonly="!alterable"
+          ></el-input>
+        </el-col>
+      </el-row>
+
+      <el-row style="width:100%" :gutter="20">
+        <el-col :span="6" style>
+          <div>类型</div>
+        </el-col>
+        <el-col :span="18">
+          {{ item.type==1?'系统':'用户'}}
         </el-col>
       </el-row>
 
@@ -41,14 +61,7 @@
         }}</el-col>
       </el-row>
 
-      <el-row style="width:100%;margin-top:10px;" :gutter="20">
-        <el-col :span="6">
-          <div>修改时间</div>
-        </el-col>
-        <el-col :span="18">{{
-          item.alterTime?thoseUtil.formatDate("yyyy-MM-dd hh:mm:ss", new Date(item.alterTime)):''
-        }}</el-col>
-      </el-row>
+
 
       <el-row style="width:100%;margin-top:30px;align:center;" :gutter="20">
         <div :style="{ display: other.btns1 }">
@@ -76,7 +89,7 @@ export default {
     refreshItem() {
       this.axios
         .post(
-          "/zhongan/maintain/producttypemanage/item",
+          "/zhongan/maintain/clientlogmanage/item",
           this.axios.qs.stringify({
             itemId: this.$route.params.itemId,
             token: this.$store.state.token
@@ -104,7 +117,7 @@ export default {
       new Promise(a=> {
         this.axios
           .post(
-            "/zhongan/maintain/producttypemanage/itemalter",
+            "/zhongan/maintain/clientlogmanage/itemalter",
             this.axios.qs.stringify({...this.item,token:this.$store.state.token})
           )
           .then(response => {
@@ -120,12 +133,6 @@ export default {
             }
           });
       }).then(()=> {
-        this.$message({
-          showClose: true,
-          message: '修改成功',
-          type: "success"
-        });
-        this.jsonDB.productType.refresh()
         this.other.btns1 = "";
         this.other.btns2 = "none";
         this.alterable = false;
@@ -142,7 +149,7 @@ export default {
   data() {
     return {
       other: {
-        btns1: "",
+        btns1: "none",
         btns2: "none"
       },
       alterable: false,

@@ -104,9 +104,9 @@
             v-model="item.orderNo"
             :step=0.5
             :disabled="!alterable"
-            :min=-1000
-            :max=99999
-            placeholder="默认99999"
+            :min="-99999"
+            :max="99999"
+            placeholder="默认9999"
             label="描述文字"
           ></el-input-number>
         </el-col>

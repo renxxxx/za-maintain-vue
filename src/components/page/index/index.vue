@@ -16,6 +16,7 @@
 <script>
 import menutree from "../../menutree/menutree.vue";
 import mainbar from "../../mainbar/mainbar.vue";
+import thoseUtil from "../../thoseUtil";
 
 export default {
   name: "page-index",
@@ -25,10 +26,10 @@ export default {
   },
   computed:{
     visibleItemIds(){
-      return this.$store.state.userBaseInfo?this.$store.state.userBaseInfo.moduleIds.split(','):"";
+      return this.$store.state.userBaseInfo?(this.$store.state.userBaseInfo.moduleIds?this.$store.state.userBaseInfo.moduleIds.split(','):[]):[];
     },
     currentItemId(){
-      return this.$store.state.userBaseInfo?this.$store.state.userBaseInfo.moduleIds.split(',')[0]:""
+      return this.$store.state.userBaseInfo?(this.$store.state.userBaseInfo.moduleIds?this.$store.state.userBaseInfo.moduleIds.split(',')[0]:""):''
     }
   },
   created(){

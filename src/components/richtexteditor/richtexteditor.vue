@@ -12,7 +12,7 @@
           >
           <div
             :style="{ display: fontSizeShow }"
-            style="position:absolute;z-index:99999"
+            style="position:absolute;z-index:9999"
           >
             <el-button size="small" @click="changeFontSize('12px')"
               >12px</el-button

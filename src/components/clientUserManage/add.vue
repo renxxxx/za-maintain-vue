@@ -3,12 +3,12 @@
     <el-main>
       <el-row style="width:100%" :gutter="20">
         <el-col :span="6" style>
-          <div>用户名</div>
+          <div>手机</div>
         </el-col>
         <el-col :span="18">
           <el-input
                   placeholder="最大长度32"
-                  v-model="item.username"
+                  v-model="item.phone"
                   clearable
           ></el-input>
         </el-col>
@@ -51,18 +51,7 @@
           ></el-input>
         </el-col>
       </el-row>
-      <el-row style="width:100%" :gutter="20">
-        <el-col :span="6" style>
-          <div>手机</div>
-        </el-col>
-        <el-col :span="18">
-          <el-input
-                  placeholder="最大长度32"
-                  v-model="item.phone"
-                  clearable
-          ></el-input>
-        </el-col>
-      </el-row>
+
       <el-row style="width:100%;margin-top:10px;" :gutter="20">
         <el-col :span="6">
           <div>头像</div>
@@ -135,28 +124,7 @@
         </el-col>
       </el-row>
 
-      <el-row style="width:100%;margin-top:10px;" :gutter="20">
-        <el-col :span="6">
-          <div>模块</div>
-        </el-col>
-        <el-col :span="18">
-          <el-select
-                  v-model="item.moduleIds"
-                  clearable
-                  multiple
-                  placeholder="请选择"
-          >
-            <el-option
-                    v-for="item in jsonDB.maintainModule.itemsLineTree"
-                    :key="item.itemId"
-                    :label="thoseUtil.strRepeat('-', item.level) + item.name"
-                    :value="item.itemId"
-            >
-              {{ thoseUtil.strRepeat("-", item.level) + item.name }}
-            </el-option>
-          </el-select>
-        </el-col>
-      </el-row>
+      
 
       <el-row style="width:100%;margin-top:30px;align:center;" :gutter="20">
         <div>
@@ -194,8 +162,8 @@ export default {
       new Promise(a=> {
         this.axios
           .post(
-            "/zhongan/maintain/maintainusermanage/itemadd",
-            this.axios.qs.stringify({...this.item,moduleIds:this.item.moduleIds.toString(),token:this.$store.state.token})
+            "/zhongan/maintain/clientusermanage/itemadd",
+            this.axios.qs.stringify({...this.item,token:this.$store.state.token})
           )
           .then(response => {
             let data = response.data;
