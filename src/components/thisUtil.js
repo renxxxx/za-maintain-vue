@@ -3,6 +3,8 @@ import imageShow from "./imageShow.vue";
 import fileChoose from "./fileChoose.vue";
 import imageEdit from "./imageEdit.vue";
 
+
+
 export function showImage(imgUrl) {
     var ImageShow = Vue.extend(imageShow);
     var si = new ImageShow({ propsData: { imgUrl } });

@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row>
-      <el-button  @click="$router.push('/articleManage/add')">新建</el-button>
+      <el-button  @click="$router.push('/maintainUserManage/add')">新建</el-button>
       <el-button @click="query">查询</el-button>
     </el-row>
 
@@ -27,10 +27,10 @@
           placeholder="选择日期时间"
         ></el-date-picker>
       </el-form-item>
-      <el-form-item label="文章类型:">
-        <el-select v-model="tableQuery.typeId" clearable placeholder="请选择">
+      <el-form-item label="拥有模块:">
+        <el-select v-model="tableQuery.moduleId" clearable placeholder="请选择">
           <el-option
-                  v-for="item in jsonDB.articleType.items"
+                  v-for="item in jsonDB.maintainModule.items"
                   :key="item.itemId"
                   :label="item.name"
                   :value="item.itemId"
@@ -49,7 +49,7 @@
       height="400"
       border
       highlight-current-row
-      :default-sort="{ prop: 'addTime', order: 'descending' }"
+
       @sort-change="sortChange"
     >
       <el-table-column
@@ -61,48 +61,65 @@
         :formatter="formatterId"
       ></el-table-column>
       <el-table-column
-        prop="title"
+        prop="username"
         sortable="custom"
-        label="标题"
+        label="用户名"
         width="150"
         show-overflow-tooltip
       ><template v-slot="rowData" >
-          <span v-html="thoseUtil.strongKeyword(rowData.row.title,tableQuery.kw)" :title="rowData.row.title"></span>
+          <span v-html="thoseUtil.strongKeyword(rowData.row.username,tableQuery.kw)" :title="rowData.row.username"></span>
       </template>
       </el-table-column>
-      <el-table-column prop="cover" label="封面" width="80" align="center">
+      <el-table-column prop="headimg" label="头像" width="80" align="center">
         <template v-slot="rowData">
-          <img :src="rowData.row.cover" style="height:30px;width:30px;cursor:pointer"
+          <img :src="rowData.row.headimg" v-if="rowData.row.headimg" style="height:30px;width:30px;cursor:pointer"
                @click="thisUtil.showImage($event.target.src)"/>
         </template>
       </el-table-column>
       <el-table-column
-        prop="typeName"
-        label="类型"
-        sortable="custom"
-        width="120"
-        align="center"
-        show-overflow-tooltip
-      ></el-table-column>
+              prop="realname"
+              sortable="custom"
+              label="姓名"
+              width="150"
+              show-overflow-tooltip
+      ><template v-slot="rowData" >
+        <span v-html="thoseUtil.strongKeyword(rowData.row.realname,tableQuery.kw)" :title="rowData.row.realname"></span>
+      </template>
+      </el-table-column>
       <el-table-column
-        prop="orderNo"
-        label="排序号"
-        sortable="custom"
-        width="120"
-        align="right"
-        show-overflow-tooltip
-      ></el-table-column>
+              prop="phone"
+              sortable="custom"
+              label="手机"
+              width="150"
+              show-overflow-tooltip
+      ><template v-slot="rowData" >
+        <span v-html="thoseUtil.strongKeyword(rowData.row.phone,tableQuery.kw)" :title="rowData.row.phone"></span>
+      </template>
+      </el-table-column>
       <el-table-column
-        prop="addTime"
-        label="添加时间"
+              prop="frozenIf"
+              label="冻结"
+              sortable="custom"
+              width="110"
+              align="center"
+              show-overflow-tooltip
+      >
+        <template v-slot="rowData">
+          {{rowData.row.frozenIf?'是':'否'}}
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        prop="registerTime"
+        label="注册时间"
         sortable="custom"
         width="160"
         align="center"
         :formatter="formatterTime"
       ></el-table-column>
       <el-table-column
-        prop="alterTime"
-        label="修改时间"
+        prop="lastAliveTime"
+        label="最后活跃时间"
         sortable="custom"
         width="160"
         align="center"
@@ -111,7 +128,7 @@
       <el-table-column label="操作" width="200">
         <template v-slot="scope">
           <el-button
-            @click="$router.push(`/articleManage/info/${scope.row.itemId}`)"
+            @click="$router.push(`/maintainUserManage/info/${scope.row.itemId}`)"
             type="text"
             size="small"
             >查看</el-button
@@ -149,10 +166,13 @@
 export default {
   name: "articleManage",
   methods: {
+    refreshPage(){
+      this.loadRemoteData();
+    },
     itemDel(itemId) {
       this.axios
               .post(
-                      "/zhongan/maintain/articlemanage/itemdel",
+                      "/zhongan/maintain/maintainusermanage/itemdel",
                       this.axios.qs.stringify({itemId, token: this.$store.state.token})
               )
               .then(response => {
@@ -189,7 +209,7 @@ export default {
         this.sorts.push(params.prop);
         this.orders.push(params.order == "ascending" ? "asc" : "desc");
       }else{
-        this.sorts.push('addTime')
+        this.sorts.push('registerTime')
         this.orders.push('desc')
       }
       this.loadRemoteData();
@@ -236,7 +256,7 @@ export default {
 
       this.axios
         .post(
-          "/zhongan/maintain/articlemanage/items",
+          "/zhongan/maintain/maintainusermanage/items",
                 this.axios.qs.stringify({...queryObj,token: this.$store.state.token})
         )
         .then(response => {
@@ -260,7 +280,8 @@ export default {
       tableQuery: {
         kw: null,
         addTimeStart: null,
-        alterTimeStart: null
+        alterTimeStart: null,
+        moduleId: null,
       },
       pageSize: 20,
       currentPage: 1,
@@ -271,7 +292,9 @@ export default {
       orders: []
     };
   },
-  created() {}
+  created() {
+    this.refreshPage()
+  }
 };
 </script>
 

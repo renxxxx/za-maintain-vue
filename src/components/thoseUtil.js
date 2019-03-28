@@ -16,6 +16,47 @@ export function formatDate(fmt, date) {
     return fmt;
 }
 
+export function lineToTree(items,idName,parentIdName,childrenName) {
+    let a = [];
+    let b = {};
+    for (let i = 0; i < items.length; i++) {
+        let item= items[i]
+        item[childrenName]=[]
+        if( item[parentIdName]==0)
+            a.push(item)
+        else{
+            let up =  b[item[parentIdName]]
+            if(!up)
+                break;
+            let children = up[childrenName];
+            children.push(item)
+        }
+        b[item[idName]]= item;
+    }
+    return a;
+}
+export function strRepeat(str,times) {
+let s = ''
+    for (let i = 0; i < times; i++) {
+        s=s+str;
+    }
+    return s;
+}
+export function toLineTreeArray(itemsTree,idName,parentIdName,childrenName,level) {
+   let a= [];
+   let b={}
+    for (let i = 0; i < itemsTree.length; i++) {
+        if(!itemsTree[i].level)
+            itemsTree[i].level=level
+        a.push(itemsTree[i])
+        b[itemsTree[i].itemId]=itemsTree[i]
+        let children = itemsTree[i][childrenName];
+            if(children.length>0){
+                a.push(...toLineTreeArray(children,idName,parentIdName,childrenName,level+1))
+            }
+    }
+    return a;
+}
 
 export function isVideoNamesuffix(name) {
     let n = name.lastIndexOf('.')
@@ -125,5 +166,34 @@ export function findParent(dom,clazz) {
         return null;
     else 
        return findParent(dom.parentNode,clazz)
-}  
-export default {findParent,ReFormData,formatDate,arrToSplit,getImgURL}
+}
+
+
+export function strongKeyword(){
+    if(arguments.length==0)
+        return '';
+    let srcText=arguments[0];
+    if(srcText==null || srcText==undefined)
+        return srcText
+    srcText = srcText+''
+    if(arguments.length==1)
+        return srcText;
+    for(let a in arguments){
+        if(a>0){
+            let keyword = arguments[a];
+            if(!keyword)
+                continue;
+            let index = srcText.indexOf(keyword);
+            if(index<0)
+                continue;
+            let aaa = srcText.substr(index,keyword.length);
+            let bbb = '<span style="color:red">'+aaa+'</span>'
+            srcText = srcText.replace(aaa,bbb)
+        }
+    }
+    return srcText;
+}
+
+
+
+export default {strRepeat,toLineTreeArray,strongKeyword,findParent,ReFormData,formatDate,arrToSplit,getImgURL,lineToTree}

@@ -15,7 +15,6 @@ export default {
   props:{
     action:{default:'login'}
   },created(){
-  alert($route.path)
     if(this.action=='login'&& this.Cookies.get('token')){
       this.$router.push('/index')
     }

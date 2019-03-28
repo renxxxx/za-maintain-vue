@@ -1,5 +1,5 @@
 <template>
-    <input type="file" ref="chooseInput"  @change="$emit('chosen',$event.target)"/>
+    <input type="file" ref="chooseInput"   @change="$emit('chosen',$event.target)"/>
 </template>
     
 

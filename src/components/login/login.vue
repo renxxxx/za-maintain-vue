@@ -4,11 +4,11 @@
       <div>登录</div>
       <div>
         <span>用户名</span>
-        <input type="text" v-model="username">
+        <input type="text" v-model="username" />
       </div>
       <div>
         <span>密码</span>
-        <input type="password" v-model="password">
+        <input type="password" v-model="password" />
       </div>
 
       <div>
@@ -23,11 +23,11 @@
       <div>注册</div>
       <div>
         <span>用户名</span>
-        <input type="text" v-model="username">
+        <input type="text" v-model="username" />
       </div>
       <div>
         <span>密码</span>
-        <input type="password" v-model="password">
+        <input type="password" v-model="password" />
       </div>
 
       <div>
@@ -73,11 +73,14 @@ export default {
       }
     },
     login() {
-      debugger
+      debugger;
       this.axios
         .post(
           "/zhongan/maintain/useraction/login",
-          this.axios.qs.stringify({ username:this.username, pwd:this.password })
+          this.axios.qs.stringify({
+            username: this.username,
+            pwd: this.password
+          })
         )
         .then(response => {
           let data = response.data;
@@ -89,11 +92,14 @@ export default {
             });
             return;
           }
-          this.Cookies.set("token", data.data.token, { expires: 30, path: '/zhongan/maintain' });
-           this.$router.push('/index');
+          let token = data.data.token;
+          this.Cookies.set("token", token, {
+            expires: 30,
+            path: "/zhongan/maintain"
+          });
+          this.$store.commit('token',token)
+          this.$router.push("/index");
         });
-
-     
     }
   },
   created() {

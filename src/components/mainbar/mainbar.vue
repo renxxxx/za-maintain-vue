@@ -1,12 +1,12 @@
 <template>
   <div style="width:100%;padding:15px 0;position:relative;min-width: 500px;">
     
-     <h1 style="margin-left:20px;">撒地方撒打飞机哦萨基佛的</h1>
+     <h1 style="margin-left:20px;">{{projectTitle}}</h1>
       
       <div style="position:absolute;right:0;bottom:0;">
-        <span style="margin-right:3px;vertical-align: middle;"><img style="width:30px;height:30px;" src="../../assets/defaultHead.jpg"/></span>
-        <span style="margin-right:10px;"><a href="#">jack</a></span>
-        <span style="margin-right:10px;"><a @click="logout">退出登录</a></span>
+        <span style="margin-right:3px;vertical-align: middle;"><img style="width:30px;height:30px;cursor: pointer" @click="thisUtil.showImage($event.target.src)" :src="$store.state.userBaseInfo.headimg?$store.state.userBaseInfo.headimg:require(`../../assets/defaultHead.jpg`)"/></span>
+        <span style="margin-right:10px;"><a href="#">{{$store.state.userBaseInfo.username+ ($store.state.userBaseInfo.realname?('/' +$store.state.userBaseInfo.realname):'')}}</a></span>
+        <span style="margin-right:10px;"><a href="#" @click="logout">退出登录</a></span>
       </div>
        
         
@@ -29,6 +29,7 @@ export default {
    logout(){
      debugger
      this.Cookies.remove('token',{ path: '/zhongan/maintain' })
+       this.$store.commit('token',null)
      this.$router.push('/login')
    }
   },

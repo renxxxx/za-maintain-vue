@@ -1,8 +1,11 @@
 <template>
   <div style>
-    <mainbar style="border-bottom:1px solid black;"/>
+    <mainbar style="border-bottom:1px solid black;" />
     <menutree
       style="width:15%;border-right:1px solid black;position:absolute;top:115px;bottom:0;overflow:auto;"
+      :visibleItemIds="visibleItemIds"
+      :itemTree="thoseUtil.lineToTree(jsonDB.maintainModule.items,'itemId','parentId','children')"
+      :currentItemId="currentItemId"
     />
     <router-view
       style="padding-top:10px;margin-left:16%;position:absolute;top:115px;bottom:0;overflow:auto;right:0;left:0"
@@ -20,38 +23,72 @@ export default {
     menutree,
     mainbar
   },
+  computed:{
+    visibleItemIds(){
+      return this.$store.state.userBaseInfo?this.$store.state.userBaseInfo.moduleIds.split(','):"";
+    },
+    currentItemId(){
+      return this.$store.state.userBaseInfo?this.$store.state.userBaseInfo.moduleIds.split(',')[0]:""
+    }
+  },
+  created(){
+debugger
+    let token = this.Cookies.get("token");
+    if(!token){
+      this.$router.push('/login')
+      return
+    }
+    this.$store.commit('token',token)
+    this.axios
+            .post(
+                    "/zhongan/maintain/useraction/loginrefresh",
+                    this.axios.qs.stringify({ token })
+            )
+            .then(response => {
+              let data = response.data;
+              if (data.code != 0) {
+                this.$message({
+                  showClose: true,
+                  message: data.codeMsg,
+                  type: "warning"
+                });
+                this.Cookies.remove("token",{ path: '/zhongan/maintain' })
+                this.$store.commit('token',null)
+                this.$router.push('/login')
+
+                return;
+              }
+
+              this.$store.commit("userBaseInfo", data.data);
+            });
+  },
   beforeCreate() {
-    if (!this.Cookies.get("token"))
-      this.$router.push("/login");
+    let token = this.Cookies.get("token");
+      if (!token) this.$router.push("/login");
+
+
+  },
+
+  beforeUpdate(){
+
   },
   provide() {
     return {
       reload: this.reload
     };
   },
-  //   watch:{
-  //       '$route': function (to, from) {
-  //         this.subPage=this.$route.params.subPage
-  // 　　}
-  //   },
   data() {
     return {
-      refresh: true,
       subPage: this.$route.params.subPage
     };
   },
   props: {},
   methods: {
-    reload() {
-      this.refresh = false;
-      this.$nextTick(() => {
-        this.refresh = true;
-      });
-    }
+
+
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>
+<style scoped></style>

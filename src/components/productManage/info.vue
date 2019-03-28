@@ -3,12 +3,12 @@
     <el-main>
       <el-row style="width:100%" :gutter="20">
         <el-col :span="6" style>
-          <div>标题</div>
+          <div>名称</div>
         </el-col>
         <el-col :span="18">
           <el-input
                   placeholder="最大长度100"
-            v-model="item.title"
+            v-model="item.name"
             clearable
             :readonly="!alterable"
           ></el-input>
@@ -36,53 +36,25 @@
           ></el-button>
         </el-col>
       </el-row>
-
-      <el-row style="width:100%;margin-top:10px;" v-show="false" :gutter="20">
+      <el-row style="width:100%;margin-top:10px;" :gutter="20">
         <el-col :span="6">
-          <div>介绍图</div>
+          <div>详情图</div>
         </el-col>
         <el-col :span="18">
-          <template v-for="(item, index) in item.introPics">
-            <span :key="index">
-              <img
-                :src="item"
-                style="height:100px;width:100px;cursor:pointer"
-                @click="thisUtil.showImage($event.target.src)"
-              />
-              <el-button
-                @click="item.introPics.splice(index, 1)"
-                icon="el-icon-close"
-                type="danger"
-                circle
-                :style="{ display: alterable ? '' : 'none' }"
-                size="mini"
-                style="margin-left:5px"
-              ></el-button>
-              <el-button
-                v-if="index < item.introPics.length - 1"
-                @click="
-                  item.introPics[index] = item.introPics.splice(
-                    index + 1,
-                    1,
-                    item.introPics[index]
-                  )[0]
-                "
-                icon="el-icon-sort"
-                circle
-                :style="{ display: alterable ? '' : 'none' }"
-                size="mini"
-                style="margin-left:5px"
-              ></el-button>
-            </span>
-          </template>
+          <img
+                  v-if="item.detailPic"
+                  :src="item.detailPic"
+                  style="height:100px;width:100px;cursor:pointer"
+                  @click="thisUtil.showImage($event.target.src)"
+          />
           <el-button
-            @click="thisUtil.chooseFile(chosenIntroPic)"
-            type="primary"
-            icon="el-icon-plus"
-            circle
-            :style="{ display: alterable ? '' : 'none' }"
-            size="mini"
-            style="margin-left:5px"
+                  @click="thisUtil.chooseFile(chosenDetailPic)"
+                  type="primary"
+                  icon="el-icon-edit"
+                  circle
+                  :style="{ display: alterable ? '' : 'none' }"
+                  size="mini"
+                  style="margin-left:5px"
           ></el-button>
         </el-col>
       </el-row>
@@ -114,25 +86,12 @@
             placeholder="请选择"
           >
             <el-option
-              v-for="item in jsonDB.articleType.items"
+              v-for="item in jsonDB.productType.items"
               :key="item.itemId"
               :label="item.name"
               :value="item.itemId"
             ></el-option>
           </el-select>
-        </el-col>
-      </el-row>
-
-      <el-row style="width:100%;margin-top:10px;" :gutter="20">
-        <el-col :span="6">
-          <div>内容</div>
-        </el-col>
-        <el-col :span="18">
-          <richtexteditor
-            ref="detailEditor"
-            :contenteditable="alterable"
-            :content="item.detail"
-          ></richtexteditor>
         </el-col>
       </el-row>
 
@@ -185,10 +144,9 @@
 </template>
 
 <script>
-import richtexteditor from "../richtexteditor/richtexteditor.vue";
 
 export default {
-  components: { richtexteditor },
+  components: {  },
   name: "articleManage_info",
   props: [],
   methods: {
@@ -198,7 +156,7 @@ export default {
     refreshItem() {
       this.axios
         .post(
-          "/zhongan/maintain/articlemanage/item",
+          "/zhongan/maintain/productmanage/item",
           this.axios.qs.stringify({
             itemId: this.$route.params.itemId,
             token: this.$store.state.token
@@ -215,32 +173,15 @@ export default {
             return;
           }
           this.item = data.data;
-              this.theseUtil.getBigtxt(this.item.detailBdId,data=>{
-
-                  this.item.detail=data
-                this.$refs.detailEditor.setContent(data)
-              })
-
-
         });
     },
     chosenCover(dom) {
       this.theseUtil.uploadFile(dom, url =>
         this.thisUtil.editImage(url, url => (this.item.cover = url))
       );
-    },
-    chosenIntroPic(dom) {
-      if(this.item.introPics.length>=9)
-      {
-        this.$message({
-          showClose: true,
-          message: '图片数量已达上限',
-          type: "warning"
-        });
-        return;
-      }
+    }, chosenDetailPic(dom) {
       this.theseUtil.uploadFile(dom, url =>
-        this.thisUtil.editImage(url, url => this.item.introPics.push(url))
+              this.thisUtil.editImage(url, url => (this.item.detailPic = url))
       );
     },
     alter() {
@@ -249,12 +190,10 @@ export default {
       this.alterable = true;
     },
     completeAlter() {
-      this.item.detail = this.$refs.detailEditor.getContent();
-
       new Promise(a=> {
         this.axios
           .post(
-            "/zhongan/maintain/articlemanage/itemalter",
+            "/zhongan/maintain/productmanage/itemalter",
             this.axios.qs.stringify({...this.item,token:this.$store.state.token})
           )
           .then(response => {

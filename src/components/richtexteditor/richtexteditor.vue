@@ -1,51 +1,74 @@
 <template>
   <div
-    :class="[unitclass]"
-    style="border:1px solid #DCDFE6;border-radius: 5px;resize:both;overflow:auto;height:300px;position:relative;"
+
+    style="border:1px solid #DCDFE6;border-radius: 5px;width:100%;"
   >
-    <div style="padding:5px 5px">
-      <div>
+      <div style="padding:5px 5px;width:100%">
+          <el-button
+            size="small"
+            style="margin-right:10px;"
+            @click="fontSizeShow = fontSizeShow == 'none' ? '' : 'none'"
+            >字号</el-button
+          >
+          <div
+            :style="{ display: fontSizeShow }"
+            style="position:absolute;z-index:99999"
+          >
+            <el-button size="small" @click="changeFontSize('12px')"
+              >12px</el-button
+            >
+            <br />
+            <el-button size="small" @click="changeFontSize('14px')"
+              >14px</el-button
+            >
+            <br />
+            <el-button size="small" @click="changeFontSize('16px')"
+              >16px</el-button
+            >
+            <br />
+            <el-button size="small" @click="changeFontSize('18px')"
+              >18px</el-button
+            >
+            <br />
+            <el-button size="small" @click="changeFontSize('20px')"
+              >20px</el-button
+            >
+          </div>
         <el-button
-          size="small"
-          style="margin-right:10px;"
-          @click="fontSizeShow=fontSizeShow=='none'?'':'none'"
-        >字体</el-button>
-        <div :style="{display:fontSizeShow}" style="position:absolute;z-index:99999">
-          <el-button size="small" @click="changeFontSize('12px')">12px</el-button>
-          <br>
-          <el-button size="small" @click="changeFontSize('14px')">14px</el-button>
-          <br>
-          <el-button size="small" @click="changeFontSize('16px')">16px</el-button>
-          <br>
-          <el-button size="small" @click="changeFontSize('18px')">18px</el-button>
-          <br>
-          <el-button size="small" @click="changeFontSize('20px')">20px</el-button>
-        </div>
-        <el-button size="small" @click="addImage">图片</el-button>
-        <el-button size="small" @click="addAudio">音频</el-button>
-        <el-button size="small" @click="addVideo">视频</el-button>
-        <el-button size="small" @click="center">居中</el-button>
-        <el-button size="small" @click="addHtml">插入标签</el-button>
+                size="small"
+                @click="fontSizeShow = fontSizeShow == 'none' ? '' : 'none'"
+        >颜色</el-button>
+          <el-button size="small" @click="addImage">图片</el-button>
+          <el-button size="small" @click="addAudio">音频</el-button>
+          <el-button size="small" @click="addVideo">视频</el-button>
+          <el-button size="small" @click="center">居中</el-button>
+          <el-button size="small" @click="addHtml">插入标签</el-button>
       </div>
+      <div
+              :class="[unitclass]"
+        ref="contentContainer"
+        @input="input"
+        :contenteditable="contenteditable"
+        style="border:1px solid #DCDFE6;width:99%;resize:both;overflow:auto;margin:auto;min-height:50px;"
+      ></div>
+
+    <div style="">
+      当前内容量：{{ richtextSize }}
     </div>
-    <div
-      ref="contentContainer"
-      @input="input"
-      :contenteditable="contenteditable"
-      style="border-top:1px solid #DCDFE6;border-bottom:1px solid #DCDFE6;position:absolute;top:50px;bottom:20px;width:100%"
-    ></div>
-    <div style=";position:absolute;bottom:0;">当前内容量：{{richtextSize}}</div>
+
   </div>
 </template>
-    
 
 <script>
 export default {
-  name: "chooseFile",
+  name: "richtexteditor",
+  computed: {
+
+  },
   data() {
     return {
       fontSizeShow: "none",
-      richtextSize: null,
+      richtextSize: 0,
       unitclass:
         "a" +
         Math.random()
@@ -58,8 +81,18 @@ export default {
       fontSizesValue: null
     };
   },
-  props: ["contenteditable"],
+  props: ["contenteditable", "content"],
+  activated() {
+    this.refreshPage();
+  },
+  mounted() {
+    this.refreshPage();
+  },
   methods: {
+
+    refreshPage() {
+      this.$refs.contentContainer.innerHTML = this.content?this.content:''
+    },
     input() {
       this.changeDone();
     },
@@ -72,7 +105,13 @@ export default {
     getContent() {
       return this.$refs.contentContainer.innerHTML;
     },
+    setContent(content) {
+      this.$refs.contentContainer.innerHTML = content?content:''
+      this.changeDone();
+    },
     currentEditorCheck() {
+      if(window.getSelection().anchorNode.classList&& window.getSelection().anchorNode.classList.contains(this.unitclass))
+        return true;
       let aaaa = this.thoseUtil.findParent(
         window.getSelection().anchorNode,
         this.unitclass
@@ -92,6 +131,8 @@ export default {
       }
       let selection = window.getSelection();
       let range = window.getSelection().getRangeAt(0);
+      if(range.toString().length=='')
+        return;
       if (range.toString() == "") return;
       let span = document.createElement("span");
       span.style["font-size"] = size;
@@ -109,7 +150,8 @@ export default {
       }
       let selection = window.getSelection();
       let range = window.getSelection().getRangeAt(0);
-
+    if(range.toString().length=='')
+      return;
       let div = document.createElement("div");
       div.style["text-align"] = "center";
 
@@ -122,7 +164,8 @@ export default {
         alert("请先选中编辑框");
         return;
       }
-      this.thisUtil.chooseFile(function(dom) {
+      this.thisUtil.chooseFile(dom=> {
+        let _this=this
         this.theseUtil.uploadFile(dom, function(url) {
           let selection = window.getSelection();
           let range = window.getSelection().getRangeAt(0);
@@ -137,6 +180,8 @@ export default {
 
           a.appendChild(img);
           range.insertNode(a);
+
+          _this.changeDone();
         });
       });
     },
@@ -146,7 +191,8 @@ export default {
         alert("请先选中编辑框");
         return;
       }
-      this.thisUtil.chooseFile(function(dom) {
+      this.thisUtil.chooseFile(dom=> {
+        let _this=this
         this.theseUtil.uploadFile(dom, url => {
           let selection = window.getSelection();
           let range = window.getSelection().getRangeAt(0);
@@ -161,6 +207,8 @@ export default {
 
           div.appendChild(audio);
           range.insertNode(div);
+
+          _this.changeDone();
         });
       });
     },
@@ -171,7 +219,8 @@ export default {
         return;
       }
 
-      this.thisUtil.chooseFile(function(dom) {
+      this.thisUtil.chooseFile(dom=> {
+        let _this=this
         this.theseUtil.uploadFile(dom, url => {
           let selection = window.getSelection();
           let range = window.getSelection().getRangeAt(0);
@@ -186,6 +235,8 @@ export default {
 
           div.appendChild(video);
           range.insertNode(div);
+
+          _this.changeDone();
         });
       });
     },
@@ -197,7 +248,7 @@ export default {
       }
       let s = prompt("请填写标签");
       if (s == "") return;
-      if (s.indexOf("<script>")!= -1) {
+      if (s.indexOf("<script>") != -1) {
         alert("无效：禁止脚本");
         return;
       }
@@ -215,5 +266,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

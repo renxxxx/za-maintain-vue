@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row>
-      <el-button  @click="$router.push('/articleManage/add')">新建</el-button>
+      <el-button  @click="$router.push('/adManage/add')">新建</el-button>
       <el-button @click="query">查询</el-button>
     </el-row>
 
@@ -27,13 +27,24 @@
           placeholder="选择日期时间"
         ></el-date-picker>
       </el-form-item>
-      <el-form-item label="文章类型:">
-        <el-select v-model="tableQuery.typeId" clearable placeholder="请选择">
+      <el-form-item label="类型:">
+        <el-select v-model="tableQuery.type" clearable placeholder="请选择">
           <el-option
-                  v-for="item in jsonDB.articleType.items"
+                  v-for="item in jsonDB.adType.items"
                   :key="item.itemId"
                   :label="item.name"
                   :value="item.itemId"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="位置:">
+        <el-select v-model="tableQuery.placeCode" clearable placeholder="请选择">
+          <el-option
+                  v-for="item in jsonDB.adPlace.items"
+                  :key="item.itemCode"
+                  :label="item.name"
+                  :value="item.itemCode"
           ></el-option>
         </el-select>
       </el-form-item>
@@ -72,18 +83,35 @@
       </el-table-column>
       <el-table-column prop="cover" label="封面" width="80" align="center">
         <template v-slot="rowData">
-          <img :src="rowData.row.cover" style="height:30px;width:30px;cursor:pointer"
+          <img :src="rowData.row.cover" style="height:30px;width:30px;cursor:pointer" v-if="rowData.row.cover"
                @click="thisUtil.showImage($event.target.src)"/>
         </template>
       </el-table-column>
       <el-table-column
-        prop="typeName"
+        prop="type"
         label="类型"
         sortable="custom"
         width="120"
         align="center"
         show-overflow-tooltip
-      ></el-table-column>
+      >
+        <template v-slot="rowData" >
+          <span>{{jsonDB.adType.item(rowData.row.type).name}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+              prop="placeCode"
+              label="位置"
+              sortable="custom"
+              width="120"
+              align="center"
+              show-overflow-tooltip
+      >
+        <template v-slot="rowData" >
+          <span>{{rowData.row.placeName}}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column
         prop="orderNo"
         label="排序号"
@@ -111,7 +139,7 @@
       <el-table-column label="操作" width="200">
         <template v-slot="scope">
           <el-button
-            @click="$router.push(`/articleManage/info/${scope.row.itemId}`)"
+            @click="$router.push(`/adManage/info/${scope.row.itemId}`)"
             type="text"
             size="small"
             >查看</el-button
@@ -152,7 +180,7 @@ export default {
     itemDel(itemId) {
       this.axios
               .post(
-                      "/zhongan/maintain/articlemanage/itemdel",
+                      "/zhongan/maintain/admanage/itemdel",
                       this.axios.qs.stringify({itemId, token: this.$store.state.token})
               )
               .then(response => {
@@ -189,8 +217,8 @@ export default {
         this.sorts.push(params.prop);
         this.orders.push(params.order == "ascending" ? "asc" : "desc");
       }else{
-        this.sorts.push('addTime')
-        this.orders.push('desc')
+        this.sorts=["placeCode", "orderNo", "addTime" ]
+        this.orders=[ "asc", "asc", "desc" ]
       }
       this.loadRemoteData();
     },
@@ -236,8 +264,8 @@ export default {
 
       this.axios
         .post(
-          "/zhongan/maintain/articlemanage/items",
-                this.axios.qs.stringify({...queryObj,token: this.$store.state.token})
+          "/zhongan/maintain/admanage/items",
+          this.axios.qs.stringify({...queryObj,token: this.$store.state.token})
         )
         .then(response => {
           let data = response.data;
@@ -259,6 +287,8 @@ export default {
       alerts: [],
       tableQuery: {
         kw: null,
+        placeCode:null,
+        type:null,
         addTimeStart: null,
         alterTimeStart: null
       },

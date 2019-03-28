@@ -1,60 +1,33 @@
 <template>
   <div style="width:100%;overflow: auto;">
-    <treemenus :items="itemTree"  :select='select' :currentItemId='currentItemId' :userItemIds='userItemIds'></treemenus>
+    <treeitems :items="itemTree"  :select='select'  :currentItemId='currentItemId' :visibleItemIds='visibleItemIds'></treeitems>
   </div>
 </template>
 
 <script>
-import treemenus from "./treemenus.vue";
+import treeitems from "./treeitems.vue";
 
 export default {
-  name: "win-menu",
+  name: "menutree",
   data() {
     return {
-      currentItemId:null,
-      userItemIds:[1,3,6,7,4,5],
-      itemTree: [
-        {
-          upId: 0,
-          name: "1",
-          isOpen: false,
-          children: [
-            { upId: 1, name: "4", isOpen: false, children: [], id: 4 },
-            { upId: 1, name: "5", isOpen: false, children: [], id: 5 }
-          ],
-          id: 1
-        },
-        { upId: 0, name: "2", isOpen: false, children: [], id: 2 },
-        {
-          upId: 0,
-          name: "3",
-          isOpen: false,
-          children: [
-            {
-              upId: 3,
-              name: "6",
-              isOpen: false,
-              children: [
-                { upId: 6, name: "7", isOpen: false, children: [], id: 7 }
-              ],
-              id: 6
-            }
-          ],
-          id: 3
-        }
-      ]
+
     };
   },
-  components: { treemenus },
-  props: ["tree"],
+  components: { treeitems },
+  props: ["itemTree","currentItemId","visibleItemIds"],
   methods:{
    select(item){
-     this.currentItemId=item.id
+     debugger
+     this.currentItemId=item.itemId
      item.isOpen=!item.isOpen
+     this.$router.push(item.path);
    }
-  },
-  beforeCreate(){
-    alert(JSON.stringify(this.jsonDB.maintainModule.items))
+  }
+  ,created(){
+    console.log("itemTree "+JSON.stringify(this.itemTree))
+    console.log("currentItemId "+this.currentItemId)
+    console.log("visibleItemIds "+this.visibleItemIds)
   }
 };
 </script>

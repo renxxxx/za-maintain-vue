@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row>
-      <el-button  @click="$router.push('/articleManage/add')">新建</el-button>
+      <el-button  @click="$router.push('/productManage/add')">新建</el-button>
       <el-button @click="query">查询</el-button>
     </el-row>
 
@@ -27,13 +27,13 @@
           placeholder="选择日期时间"
         ></el-date-picker>
       </el-form-item>
-      <el-form-item label="文章类型:">
+      <el-form-item label="类型:">
         <el-select v-model="tableQuery.typeId" clearable placeholder="请选择">
           <el-option
-                  v-for="item in jsonDB.articleType.items"
-                  :key="item.itemId"
-                  :label="item.name"
-                  :value="item.itemId"
+            v-for="item in jsonDB.productType.items"
+            :key="item.itemId"
+            :label="item.name"
+            :value="item.itemId"
           ></el-option>
         </el-select>
       </el-form-item>
@@ -61,13 +61,13 @@
         :formatter="formatterId"
       ></el-table-column>
       <el-table-column
-        prop="title"
+        prop="name"
         sortable="custom"
-        label="标题"
+        label="名称"
         width="150"
         show-overflow-tooltip
       ><template v-slot="rowData" >
-          <span v-html="thoseUtil.strongKeyword(rowData.row.title,tableQuery.kw)" :title="rowData.row.title"></span>
+          <span v-html="thoseUtil.strongKeyword(rowData.row.name,tableQuery.kw)" :title="rowData.row.title"></span>
       </template>
       </el-table-column>
       <el-table-column prop="cover" label="封面" width="80" align="center">
@@ -111,7 +111,7 @@
       <el-table-column label="操作" width="200">
         <template v-slot="scope">
           <el-button
-            @click="$router.push(`/articleManage/info/${scope.row.itemId}`)"
+            @click="$router.push(`/productManage/info/${scope.row.itemId}`)"
             type="text"
             size="small"
             >查看</el-button
@@ -152,7 +152,7 @@ export default {
     itemDel(itemId) {
       this.axios
               .post(
-                      "/zhongan/maintain/articlemanage/itemdel",
+                      "/zhongan/maintain/productmanage/itemdel",
                       this.axios.qs.stringify({itemId, token: this.$store.state.token})
               )
               .then(response => {
@@ -236,8 +236,8 @@ export default {
 
       this.axios
         .post(
-          "/zhongan/maintain/articlemanage/items",
-                this.axios.qs.stringify({...queryObj,token: this.$store.state.token})
+          "/zhongan/maintain/productmanage/items",
+          this.axios.qs.stringify(queryObj)
         )
         .then(response => {
           let data = response.data;
