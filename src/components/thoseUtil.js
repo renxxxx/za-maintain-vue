@@ -189,7 +189,25 @@ export function strongKeyword() {
   return srcText;
 }
 
+export function isImageSuffixName(path) {
+ if(path.search(/\.(bmp|jpg|png|tif|gif|pcx|tga|exif|fpx|svg|psd|cdr|pcd|dxf|ufo|eps|ai|raw|WMF|webp)$/ig) != -1)
+   return true;
+  return false;
+}
+export function isVideoSuffixName(path) {
+  if(path.search(/\.(rm|rmvb|mpeg1-4|mov|mtv|dat|wmv|avi|3gp|amv|dmv|flv|mp4|mov|wkv)$/ig) != -1)
+    return true;
+  return false;
+}
+export function isAudioSuffixName(path) {
+  if(path.search(/\.(flac|ape|wav|mp3|aac|ogg|wma)$/ig) != -1)
+    return true;
+  return false;
+}
 export default {
+  isAudioSuffixName,
+  isVideoSuffixName,
+  isImageSuffixName,
   strRepeat,
   toLineTreeArray,
   strongKeyword,

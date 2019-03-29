@@ -39,7 +39,8 @@ import maintainLogManageInfo from "./components/maintainLogManage/info.vue";
 import sysparamManageIndex from "./components/sysparamManage/index.vue";
 import sysparamManageInfo from "./components/sysparamManage/info.vue";
 import pageManageRegisterProtocol from "./components/pageManage/registerProtocol.vue";
-
+import vcolorpicker from 'vcolorpicker'
+Vue.use(vcolorpicker)
 
 import ElementUI from "element-ui";
 Vue.use(ElementUI);

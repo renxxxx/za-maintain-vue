@@ -7,7 +7,7 @@
         </el-col>
         <el-col :span="18">
           <el-input
-                  placeholder="最大长度100"
+            placeholder="最大长度100"
             v-model="item.title"
             clearable
           ></el-input>
@@ -19,11 +19,13 @@
         </el-col>
         <el-col :span="18">
           <img
-            v-if="item.cover"
+            v-if="item.cover && item.coverImage"
             :src="item.cover"
             style="height:100px;width:100px;cursor:pointer"
             @click="thisUtil.showImage($event.target.src)"
           />
+          <video :src="item.cover" controls  v-if="item.cover && item.coverVideo"></video>
+          <audio :src="item.cover" controls  v-if="item.cover && item.coverAudio"></audio>
           <el-button
             @click="thisUtil.chooseFile(chosenCover)"
             type="primary"
@@ -41,10 +43,10 @@
         </el-col>
         <el-col :span="18">
           <el-input
-                  type="textarea"
-                  :autosize="{ minRows: 2, maxRows: 8 }"
-                  placeholder="最大长度500"
-                  v-model="item.text"
+            type="textarea"
+            :autosize="{ minRows: 2, maxRows: 8 }"
+            placeholder="最大长度500"
+            v-model="item.text"
           ></el-input>
         </el-col>
       </el-row>
@@ -70,7 +72,7 @@
         <el-col :span="18">
           <el-input-number
             v-model="item.orderNo"
-            :step=0.5
+            :step="0.5"
             :min="-99999"
             :max="99999"
             placeholder="默认9999"
@@ -88,25 +90,41 @@
 </template>
 
 <script>
+import thoseUtil from "../thoseUtil";
 
 export default {
-  components: {  },
+  components: {},
   name: "articleManage_add",
-  props: ['type','placeCode'],
+  props: ["type", "placeCode"],
   methods: {
-    refreshPage() {
-    },
+    refreshPage() {},
     chosenCover(dom) {
-      this.theseUtil.uploadFile(dom, url =>
-        this.thisUtil.editImage(url, url => (this.item.cover = url))
-      );
+      this.theseUtil.uploadFile(dom, url => {
+        if (thoseUtil.isImageSuffixName(url)) {
+          this.thisUtil.editImage(url, url => (this.item.cover = url));
+          this.item.coverImage = true;
+        }
+        if (thoseUtil.isAudioSuffixName(url)) {
+          this.item.cover = url
+          this.item.coverAudio = true;
+        }
+        if (thoseUtil.isVideoSuffixName(url)) {
+          this.item.cover = url
+          this.item.coverVideo = true;
+        }
+      });
     },
     addItem() {
-      new Promise(a=> {
+      new Promise(a => {
         this.axios
           .post(
             "/zhongan/maintain/admanage/itemadd",
-            this.axios.qs.stringify({...this.item,type:this.type,placeCode:this.placeCode,token:this.$store.state.token})
+            this.axios.qs.stringify({
+              ...this.item,
+              type: this.type,
+              placeCode: this.placeCode,
+              token: this.$store.state.token
+            })
           )
           .then(response => {
             let data = response.data;
@@ -120,11 +138,10 @@ export default {
               a();
             }
           });
-      }).then(()=> {
-
+      }).then(() => {
         this.$message({
           showClose: true,
-          message: '添加成功',
+          message: "添加成功",
           type: "success"
         });
       });
@@ -133,8 +150,8 @@ export default {
   data() {
     return {
       item: {
-        introPics:[],
-        cover:null,
+        introPics: [],
+        cover: null
       }
     };
   },

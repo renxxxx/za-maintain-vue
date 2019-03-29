@@ -22,10 +22,10 @@
         <el-button size="small" @click="changeFontSize('20px')">20px</el-button>
       </div>
       <el-button
-        size="small"
-
+        size="small" @click="aa($refs.colorPicker)"
         >颜色</el-button
       >
+      <colorPicker ref="colorPicker"  v-model="color" style="position:absolute;z-index:9999;display: block"/>
       <el-button size="small" @click="addImage">图片</el-button>
       <el-button size="small" @click="addAudio">音频</el-button>
       <el-button size="small" @click="addVideo">视频</el-button>
@@ -53,6 +53,7 @@ export default {
   computed: {},
   data() {
     return {
+      color:null,
       fontSizeShow: "none",
       richtextSize: 0,
       unitclass:
@@ -152,6 +153,7 @@ export default {
         return;
       }
       this.thisUtil.chooseFile(dom => {
+
         let _this = this;
         this.theseUtil.uploadFile(dom, function(url) {
           let selection = window.getSelection();
@@ -179,6 +181,8 @@ export default {
         return;
       }
       this.thisUtil.chooseFile(dom => {
+
+
         let _this = this;
         this.theseUtil.uploadFile(dom, url => {
           let selection = window.getSelection();
@@ -207,6 +211,7 @@ export default {
       }
 
       this.thisUtil.chooseFile(dom => {
+
         let _this = this;
         this.theseUtil.uploadFile(dom, url => {
           let selection = window.getSelection();

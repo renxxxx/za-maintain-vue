@@ -14,7 +14,7 @@ export function showImage(imgUrl) {
 
   export function  chooseFile(choosen) {
     var FileChoose = Vue.extend(fileChoose);
-    var cf = new FileChoose();
+    var cf = new FileChoose({propsData:{maxSize:10*1024*1024}});
     cf.$mount()
       .choose()
       .$on("chosen", choosen);

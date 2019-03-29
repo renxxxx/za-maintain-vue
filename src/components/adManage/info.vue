@@ -20,11 +20,13 @@
         </el-col>
         <el-col :span="18">
           <img
-            v-if="item.cover"
+            v-if="item.cover &&item.coverImage"
             :src="item.cover"
             style="height:100px;width:100px;cursor:pointer"
             @click="thisUtil.showImage($event.target.src)"
           />
+          <video :src="item.cover" controls  v-if="item.cover && item.coverVideo"></video>
+          <audio :src="item.cover" controls  v-if="item.cover && item.coverAudio"></audio>
           <el-button
             @click="thisUtil.chooseFile(chosenCover)"
             type="primary"
@@ -210,6 +212,12 @@ export default {
             return;
           }
           this.item = data.data;
+          if(this.thoseUtil.isImageSuffixName(this.item.cover))
+            this.item.coverImage=true;
+          else  if(this.thoseUtil.isVideoSuffixName(this.item.cover))
+            this.item.coverVideo=true;
+          else  if(this.thoseUtil.isAudioSuffixName(this.item.cover))
+            this.item.coverAudio=true;
         });
     },
     chosenCover(dom) {
