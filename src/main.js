@@ -38,6 +38,9 @@ import maintainLogManageIndex from "./components/maintainLogManage/index.vue";
 import maintainLogManageInfo from "./components/maintainLogManage/info.vue";
 import sysparamManageIndex from "./components/sysparamManage/index.vue";
 import sysparamManageInfo from "./components/sysparamManage/info.vue";
+import pageManageRegisterProtocol from "./components/pageManage/registerProtocol.vue";
+
+
 import ElementUI from "element-ui";
 Vue.use(ElementUI);
 import "element-ui/lib/theme-chalk/index.css";
@@ -209,6 +212,11 @@ const routes = [
         path: "/sysparamManage/info/:itemCode",
         component:sysparamManageInfo
       },
+      {
+        path: "/pageManage/registerProtocol",
+        component:pageManageRegisterProtocol
+      },
+
     ]
   }
 ];

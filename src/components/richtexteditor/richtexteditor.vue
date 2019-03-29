@@ -1,70 +1,56 @@
 <template>
-  <div
-
-    style="border:1px solid #DCDFE6;border-radius: 5px;width:100%;"
-  >
-      <div style="padding:5px 5px;width:100%">
-          <el-button
-            size="small"
-            style="margin-right:10px;"
-            @click="fontSizeShow = fontSizeShow == 'none' ? '' : 'none'"
-            >字号</el-button
-          >
-          <div
-            :style="{ display: fontSizeShow }"
-            style="position:absolute;z-index:9999"
-          >
-            <el-button size="small" @click="changeFontSize('12px')"
-              >12px</el-button
-            >
-            <br />
-            <el-button size="small" @click="changeFontSize('14px')"
-              >14px</el-button
-            >
-            <br />
-            <el-button size="small" @click="changeFontSize('16px')"
-              >16px</el-button
-            >
-            <br />
-            <el-button size="small" @click="changeFontSize('18px')"
-              >18px</el-button
-            >
-            <br />
-            <el-button size="small" @click="changeFontSize('20px')"
-              >20px</el-button
-            >
-          </div>
-        <el-button
-                size="small"
-                @click="fontSizeShow = fontSizeShow == 'none' ? '' : 'none'"
-        >颜色</el-button>
-          <el-button size="small" @click="addImage">图片</el-button>
-          <el-button size="small" @click="addAudio">音频</el-button>
-          <el-button size="small" @click="addVideo">视频</el-button>
-          <el-button size="small" @click="center">居中</el-button>
-          <el-button size="small" @click="addHtml">插入标签</el-button>
-      </div>
+  <div style="border:1px solid #DCDFE6;border-radius: 5px;width:100%;">
+    <div style="padding:5px 5px;width:100%;">
+      <el-button
+        size="small"
+        style="margin-right:10px;"
+        @click="fontSizeShow = fontSizeShow == 'none' ? '' : 'none'"
+        >字号</el-button
+      >
       <div
-              :class="[unitclass]"
-        ref="contentContainer"
-        @input="input"
-        :contenteditable="contenteditable"
-        style="border:1px solid #DCDFE6;width:99%;resize:both;overflow:auto;margin:auto;min-height:50px;"
-      ></div>
+        :style="{ display: fontSizeShow }"
+        style="position:absolute;z-index:9999"
+      >
+        <el-button size="small" @click="changeFontSize('12px')">12px</el-button>
+        <br />
+        <el-button size="small" @click="changeFontSize('14px')">14px</el-button>
+        <br />
+        <el-button size="small" @click="changeFontSize('16px')">16px</el-button>
+        <br />
+        <el-button size="small" @click="changeFontSize('18px')">18px</el-button>
+        <br />
+        <el-button size="small" @click="changeFontSize('20px')">20px</el-button>
+      </div>
+      <el-button
+        size="small"
 
-    <div style="">
-      当前内容量：{{ richtextSize }}
+        >颜色</el-button
+      >
+      <el-button size="small" @click="addImage">图片</el-button>
+      <el-button size="small" @click="addAudio">音频</el-button>
+      <el-button size="small" @click="addVideo">视频</el-button>
+      <el-button size="small" @click="align('left')">左对齐</el-button>
+      <el-button size="small" @click="align('center')">居中</el-button>
+      <el-button size="small" @click="align('right')">右对齐</el-button>
+      <el-button size="small" @click="addHtml">插入代码</el-button>
     </div>
-
+    <div
+      :class="[unitclass]"
+      ref="contentContainer"
+      @input="input"
+      :contenteditable="contenteditable"
+      style="border:1px solid #DCDFE6;width:99%;resize:both;overflow:auto;margin:auto;min-height:50px;height:300px"
+      :style="{ height: contentHeight }"
+    ></div>
+      <div style="">当前内部字符数量：{{ richtextSize }}</div>
   </div>
 </template>
 
 <script>
+
 export default {
   name: "richtexteditor",
-  computed: {
-
-  },
+  computed: {},
   data() {
     return {
       fontSizeShow: "none",
@@ -81,7 +67,7 @@ export default {
       fontSizesValue: null
     };
   },
-  props: ["contenteditable", "content"],
+  props: ["contenteditable", "content", "contentHeight"],
   activated() {
     this.refreshPage();
   },
@@ -89,9 +75,8 @@ export default {
     this.refreshPage();
   },
   methods: {
-
     refreshPage() {
-      this.$refs.contentContainer.innerHTML = this.content?this.content:''
+      this.$refs.contentContainer.innerHTML = this.content ? this.content : "";
     },
     input() {
       this.changeDone();
@@ -106,11 +91,14 @@ export default {
       return this.$refs.contentContainer.innerHTML;
     },
     setContent(content) {
-      this.$refs.contentContainer.innerHTML = content?content:''
+      this.$refs.contentContainer.innerHTML = content ? content : "";
       this.changeDone();
     },
     currentEditorCheck() {
-      if(window.getSelection().anchorNode.classList&& window.getSelection().anchorNode.classList.contains(this.unitclass))
+      if (
+        window.getSelection().anchorNode.classList &&
+        window.getSelection().anchorNode.classList.contains(this.unitclass)
+      )
         return true;
       let aaaa = this.thoseUtil.findParent(
         window.getSelection().anchorNode,
@@ -131,8 +119,7 @@ export default {
       }
       let selection = window.getSelection();
       let range = window.getSelection().getRangeAt(0);
-      if(range.toString().length=='')
-        return;
+      if (range.toString().length == "") return;
       if (range.toString() == "") return;
       let span = document.createElement("span");
       span.style["font-size"] = size;
@@ -141,7 +128,7 @@ export default {
 
       this.changeDone();
     },
-    center: function() {
+    align: function(align) {
       debugger;
       if (!this.contenteditable) return;
       if (!this.currentEditorCheck()) {
@@ -150,22 +137,22 @@ export default {
       }
       let selection = window.getSelection();
       let range = window.getSelection().getRangeAt(0);
-    if(range.toString().length=='')
-      return;
+      if (range.toString().length == "") return;
       let div = document.createElement("div");
-      div.style["text-align"] = "center";
+      div.style["text-align"] = align;
 
       range.surroundContents(div);
       this.changeDone();
     },
+
     addImage: function() {
       if (!this.contenteditable) return;
       if (!this.currentEditorCheck()) {
         alert("请先选中编辑框");
         return;
       }
-      this.thisUtil.chooseFile(dom=> {
-        let _this=this
+      this.thisUtil.chooseFile(dom => {
+        let _this = this;
         this.theseUtil.uploadFile(dom, function(url) {
           let selection = window.getSelection();
           let range = window.getSelection().getRangeAt(0);
@@ -191,8 +178,8 @@ export default {
         alert("请先选中编辑框");
         return;
       }
-      this.thisUtil.chooseFile(dom=> {
-        let _this=this
+      this.thisUtil.chooseFile(dom => {
+        let _this = this;
         this.theseUtil.uploadFile(dom, url => {
           let selection = window.getSelection();
           let range = window.getSelection().getRangeAt(0);
@@ -219,8 +206,8 @@ export default {
         return;
       }
 
-      this.thisUtil.chooseFile(dom=> {
-        let _this=this
+      this.thisUtil.chooseFile(dom => {
+        let _this = this;
         this.theseUtil.uploadFile(dom, url => {
           let selection = window.getSelection();
           let range = window.getSelection().getRangeAt(0);
@@ -246,12 +233,12 @@ export default {
         alert("请先选中编辑框");
         return;
       }
-      let s = prompt("请填写标签");
+      let s = prompt("请填写代码");
       if (s == "") return;
-      if (s.indexOf("<script>") != -1) {
-        alert("无效：禁止脚本");
-        return;
-      }
+      // if (s.search(/<\s*script.*?>/ig) != -1) {
+      //   alert("无效：禁止包含脚本");
+      //   return;
+      // }
       let selection = window.getSelection();
       let range = window.getSelection().getRangeAt(0);
 

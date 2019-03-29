@@ -6,12 +6,7 @@
           <div>名称</div>
         </el-col>
         <el-col :span="18">
-          <el-input
-                  placeholder="最大长度100"
-            v-model="item.name"
-            clearable
-            :readonly="!alterable"
-          ></el-input>
+          {{item.name}}
         </el-col>
       </el-row>
 

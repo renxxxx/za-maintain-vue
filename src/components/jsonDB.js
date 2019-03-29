@@ -64,6 +64,7 @@ let maintainModule = {
           else if (item.itemId == 16) item.path = "/clientLogManage/index";
           else if (item.itemId == 17) item.path = "/maintainLogManage/index";
           else if (item.itemId == 18) item.path = "/sysparamManage/index";
+          else if (item.itemId == 20) item.path = "/pageManage/registerProtocol";
       }
     });
     return _this._items;
