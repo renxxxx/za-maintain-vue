@@ -359,6 +359,7 @@ export default {
       //   alert("无效：禁止包含脚本");
       //   return;
       // }
+      s=s.replace(/http:/ig, "")
       let selection = window.getSelection();
       let range = window.getSelection().getRangeAt(0);
 
