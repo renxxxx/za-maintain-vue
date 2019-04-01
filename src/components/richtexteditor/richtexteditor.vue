@@ -25,13 +25,13 @@
         <br />
         <el-button size="small" @click="changeFontSize('20px')">20px</el-button>
       </div>
-      <el-button size="small" @click="undo" style="">《《《</el-button>
-      <el-button size="small" @click="redo" style="">》》》</el-button>
+      <el-button size="small" @click="undo" icon="el-icon-arrow-left"></el-button>
+      <el-button size="small" @click="redo" icon="el-icon-arrow-right"></el-button>
       <el-color-picker
         v-model="color"
         show-alpha
         size="small"
-        style="top: 12px;"
+        style="top: 12px;margin-left:10px;"
       ></el-color-picker>
       <el-button size="small" @click="changeColor" style="">变色</el-button>
       <el-button size="small" @click="align('left')">左对齐</el-button>
@@ -101,10 +101,12 @@ export default {
       this.changeDone();
     },
     undo(){
+      if (!this.contenteditable) return;
       this.mu.undo()
       this.changeDone();
     },
     redo(){
+      if (!this.contenteditable) return;
       this.mu.redo()
       this.changeDone();
     },

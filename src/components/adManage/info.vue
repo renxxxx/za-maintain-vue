@@ -7,7 +7,8 @@
         </el-col>
         <el-col :span="18">
           <el-input
-            placeholder="最大长度100"
+            placeholder="最大长度100，标题是用来给运维人员区分广告的，不会显示在页面上"
+            title="最大长度100，标题是用来给运维人员区分广告的，不会显示在页面上"
             v-model="item.title"
             clearable
             :readonly="!alterable"
