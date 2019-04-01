@@ -215,7 +215,7 @@ export default {
             return;
           }
           this.item = data.data;
-              this.theseUtil.getBigtxt(this.item.detailBdId,data=>{
+              this.theseUtil.getBigtxt(this.item.detailBtId,data=>{
 
                   this.item.detail=data
                 this.$refs.detailEditor.setContent(data)

@@ -37,23 +37,14 @@
 
       <el-row style="width:100%;margin-top:10px;" :gutter="20">
         <el-col :span="6">
-          <div>详情图</div>
+          <div>内容</div>
         </el-col>
         <el-col :span="18">
-          <img
-                  v-if="item.detailPic"
-                  :src="item.detailPic"
-                  style="height:100px;width:100px;cursor:pointer"
-                  @click="thisUtil.showImage($event.target.src)"
-          />
-          <el-button
-                  @click="thisUtil.chooseFile(chosenDetailPic)"
-                  type="primary"
-                  icon="el-icon-edit"
-                  circle
-                  size="mini"
-                  style="margin-left:5px"
-          ></el-button>
+          <richtexteditor
+                  ref="detailEditor"
+                  :contenteditable="true"
+                  :content="item.detail"
+          ></richtexteditor>
         </el-col>
       </el-row>
 
@@ -117,8 +108,10 @@
 </template>
 
 <script>
+  import richtexteditor from "../richtexteditor/richtexteditor.vue";
 
-export default {
+  export default {
+    components: { richtexteditor },
   name: "articleManage_add",
   props: [],
   methods: {
@@ -129,13 +122,8 @@ export default {
         this.thisUtil.editImage(url, url => (this.item.cover = url))
       );
     },
-    chosenDetailPic(dom) {
-      this.theseUtil.uploadFile(dom, url =>
-              this.thisUtil.editImage(url, url => (this.item.detailPic = url))
-      );
-    },
     addItem() {
-
+      this.item.detail = this.$refs.detailEditor.getContent();
       new Promise(a=> {
         this.axios
           .post(

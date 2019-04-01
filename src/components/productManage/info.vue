@@ -38,24 +38,14 @@
       </el-row>
       <el-row style="width:100%;margin-top:10px;" :gutter="20">
         <el-col :span="6">
-          <div>详情图</div>
+          <div>内容</div>
         </el-col>
         <el-col :span="18">
-          <img
-                  v-if="item.detailPic"
-                  :src="item.detailPic"
-                  style="height:100px;width:100px;cursor:pointer"
-                  @click="thisUtil.showImage($event.target.src)"
-          />
-          <el-button
-                  @click="thisUtil.chooseFile(chosenDetailPic)"
-                  type="primary"
-                  icon="el-icon-edit"
-                  circle
-                  :style="{ display: alterable ? '' : 'none' }"
-                  size="mini"
-                  style="margin-left:5px"
-          ></el-button>
+          <richtexteditor
+                  ref="detailEditor"
+                  :contenteditable="alterable"
+                  :content="item.detail"
+          ></richtexteditor>
         </el-col>
       </el-row>
 
@@ -144,9 +134,10 @@
 </template>
 
 <script>
+  import richtexteditor from "../richtexteditor/richtexteditor.vue";
 
-export default {
-  components: {  },
+  export default {
+    components: { richtexteditor },
   name: "articleManage_info",
   props: [],
   methods: {
@@ -173,15 +164,16 @@ export default {
             return;
           }
           this.item = data.data;
+          this.theseUtil.getBigtxt(this.item.detailBtId,data=>{
+
+            this.item.detail=data
+            this.$refs.detailEditor.setContent(data)
+          })
         });
     },
     chosenCover(dom) {
       this.theseUtil.uploadFile(dom, url =>
         this.thisUtil.editImage(url, url => (this.item.cover = url))
-      );
-    }, chosenDetailPic(dom) {
-      this.theseUtil.uploadFile(dom, url =>
-              this.thisUtil.editImage(url, url => (this.item.detailPic = url))
       );
     },
     alter() {
@@ -190,6 +182,7 @@ export default {
       this.alterable = true;
     },
     completeAlter() {
+      this.item.detail = this.$refs.detailEditor.getContent();
       new Promise(a=> {
         this.axios
           .post(
