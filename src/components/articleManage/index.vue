@@ -58,8 +58,11 @@
         label="ID"
         width="100"
         show-overflow-tooltip
-        :formatter="formatterId"
-      ></el-table-column>
+      >
+        <template v-slot="rowData" >
+          {{'...'+rowData.row.itemId.substr(rowData.row.itemId.length - 6)}}
+        </template>
+      </el-table-column>
       <el-table-column
         prop="title"
         sortable="custom"
@@ -215,9 +218,7 @@ export default {
         new Date(cellValue)
       );
     },
-    formatterId(row, column, cellValue, index) {
-      return cellValue.substr(cellValue.length - 6);
-    },
+
 
     loadRemoteData() {
       debugger;
