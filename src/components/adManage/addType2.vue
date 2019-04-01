@@ -1,18 +1,7 @@
 <template>
   <el-container style="padding-left:30px;padding-right:30px">
     <el-main>
-      <el-row style="width:100%" :gutter="20">
-        <el-col :span="6" style>
-          <div>标题</div>
-        </el-col>
-        <el-col :span="18">
-          <el-input
-            placeholder="最大长度100"
-            v-model="item.title"
-            clearable
-          ></el-input>
-        </el-col>
-      </el-row>
+
       <el-row style="width:100%;margin-top:10px;" :gutter="20">
         <el-col :span="6">
           <div>封面</div>
@@ -57,7 +46,32 @@
           ></el-input>
         </el-col>
       </el-row>
-
+      <el-row style="width:100%;margin-top:10px;" :gutter="20">
+        <el-col :span="6">
+          <div>广告语1</div>
+        </el-col>
+        <el-col :span="18">
+          <el-input
+                  type="textarea"
+                  :autosize="{ minRows: 2, maxRows: 8 }"
+                  placeholder="最大长度500"
+                  v-model="item.text1"
+          ></el-input>
+        </el-col>
+      </el-row>
+      <el-row style="width:100%;margin-top:10px;" :gutter="20">
+        <el-col :span="6">
+          <div>广告语2</div>
+        </el-col>
+        <el-col :span="18">
+          <el-input
+                  type="textarea"
+                  :autosize="{ minRows: 2, maxRows: 8 }"
+                  placeholder="最大长度500"
+                  v-model="item.text2"
+          ></el-input>
+        </el-col>
+      </el-row>
       <el-row style="width:100%;margin-top:10px;" :gutter="20">
         <el-col :span="6">
           <div>备注</div>
@@ -100,7 +114,7 @@
 export default {
   components: {},
   name: "articleManage_add",
-  props: ["type", "placeCode"],
+  props: ["type", "placeCode","title"],
   methods: {
     refreshPage() {},
     chosenCover(dom) {
@@ -124,6 +138,7 @@ export default {
             "/zhongan/maintain/admanage/itemadd",
             this.axios.qs.stringify({
               ...this.item,
+              title: this.title,
               type: this.type,
               placeCode: this.placeCode,
               token: this.$store.state.token
