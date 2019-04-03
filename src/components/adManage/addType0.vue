@@ -10,7 +10,7 @@
           <img
             v-if="item.cover && item.coverImage"
             :src="item.cover"
-            style="height:100px;width:100px;cursor:pointer"
+            style="width:100px;cursor:pointer"
             @click="thisUtil.showImage($event.target.src)"
           />
           <video :src="item.cover" controls  v-if="item.cover && item.coverVideo"></video>

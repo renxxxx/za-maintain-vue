@@ -23,7 +23,7 @@
           <img
             v-if="item.cover &&item.coverImage"
             :src="item.cover"
-            style="height:100px;width:100px;cursor:pointer"
+            style="width:100px;cursor:pointer"
             @click="thisUtil.showImage($event.target.src)"
           />
           <video :src="item.cover" controls  v-if="item.cover && item.coverVideo"></video>
@@ -82,7 +82,6 @@
 
       <el-row
         style="width:100%;margin-top:10px;"
-        v-if="item.text1"
         :gutter="20"
       >
         <el-col :span="6">
@@ -99,6 +98,63 @@
         </el-col>
       </el-row>
 
+      <el-row
+              style="width:100%;margin-top:10px;"
+              :gutter="20"
+      >
+        <el-col :span="6">
+          <div>广告语2</div>
+        </el-col>
+        <el-col :span="18">
+          <el-input
+                  :readonly="!alterable"
+                  type="textarea"
+                  :autosize="{ minRows: 2, maxRows: 8 }"
+                  placeholder="最大长度500"
+                  v-model="item.text2"
+          ></el-input>
+        </el-col>
+      </el-row>
+
+      <el-row
+              style="width:100%;margin-top:10px;"
+              :gutter="20"
+      >
+        <el-col :span="6">
+          <div>广告语3</div>
+        </el-col>
+        <el-col :span="18">
+          <el-input
+                  :readonly="!alterable"
+                  type="textarea"
+                  :autosize="{ minRows: 2, maxRows: 8 }"
+                  placeholder="最大长度500"
+                  v-model="item.text3"
+          ></el-input>
+        </el-col>
+      </el-row>
+
+
+
+      <el-row
+              style="width:100%;margin-top:10px;"
+              :gutter="20"
+      >
+        <el-col :span="6">
+          <div>广告语4</div>
+        </el-col>
+        <el-col :span="18">
+          <el-input
+                  :readonly="!alterable"
+                  type="textarea"
+                  :autosize="{ minRows: 2, maxRows: 8 }"
+                  placeholder="最大长度500"
+                  v-model="item.text4"
+          ></el-input>
+        </el-col>
+      </el-row>
+
+
       <el-row style="width:100%;margin-top:10px;" v-if="item.text" :gutter="20">
         <el-col :span="6">
           <div>链接</div>
@@ -111,6 +167,21 @@
           ></el-input>
         </el-col>
       </el-row>
+
+
+      <el-row style="width:100%;margin-top:10px;" v-if="item.text" :gutter="20">
+        <el-col :span="6">
+          <div>链接1</div>
+        </el-col>
+        <el-col :span="18">
+          <el-input
+                  :readonly="!alterable"
+                  placeholder="最大长度500"
+                  v-model="item.link1"
+          ></el-input>
+        </el-col>
+      </el-row>
+
 
       <el-row style="width:100%;margin-top:10px;" :gutter="20">
         <el-col :span="6">

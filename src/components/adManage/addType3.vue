@@ -10,7 +10,7 @@
           <img
             v-if="item.cover"
             :src="item.cover"
-            style="height:100px;width:100px;cursor:pointer"
+            style="width:100px;cursor:pointer"
             @click="thisUtil.showImage($event.target.src)"
           />
           <el-button
