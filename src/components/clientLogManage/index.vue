@@ -181,7 +181,7 @@ export default {
 
       this.axios
         .post(
-          "/zhongan/maintain/clientlogmanage/items",
+          "/portal/maintain/clientlogmanage/items",
           this.axios.qs.stringify(queryObj)
         )
         .then(response => {

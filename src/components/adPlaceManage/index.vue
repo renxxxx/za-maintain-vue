@@ -163,7 +163,7 @@ export default {
 
       this.axios
         .post(
-          "/zhongan/maintain/adplacemanage/items",
+          "/portal/maintain/adplacemanage/items",
           this.axios.qs.stringify(queryObj)
         )
         .then(response => {

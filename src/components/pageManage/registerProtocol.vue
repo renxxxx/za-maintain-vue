@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a href="/oss/zhongan/page/registerProtocol.html" target="_blank">页面链接</a>
+        <a href="/oss/portal/page/registerProtocol.html" target="_blank">页面链接</a>
         <richtexteditor
                 ref="richtexteditor"
                 :contenteditable="alterable"
@@ -19,7 +19,7 @@
         props:['url'],
         methods: {
             refreshPage() {
-                this.axios.get(`/oss/zhongan/page/registerProtocol.html?x=${new Date().getTime()}`).then(response => {
+                this.axios.get(`/oss/portal/page/registerProtocol.html?x=${new Date().getTime()}`).then(response => {
                     this.$refs.richtexteditor.setContent(response.data);
                 })
             },
@@ -30,7 +30,7 @@
                 let richtexteditor = this.$refs.richtexteditor.getContent();
                 this.axios
                     .post(
-                        `/zhongan/maintain/other/setpage?token=${this.$store.state.token}&filePath=/page/registerProtocol.html`,
+                        `/portal/maintain/other/setpage?token=${this.$store.state.token}&filePath=/page/registerProtocol.html`,
                         richtexteditor)
                     .then(response => {
                         let data = response.data;

@@ -1,7 +1,7 @@
 module.exports = {
-    publicPath:'/zhongan/maintain/',
+    publicPath:'/portal/maintain/',
     devServer: {
-        publicPath:'/zhongan/maintain/',
+        publicPath:'/portal/maintain/',
         port: 8088,
         proxy:
         {

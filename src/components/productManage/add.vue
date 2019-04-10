@@ -127,7 +127,7 @@
       new Promise(a=> {
         this.axios
           .post(
-            "/zhongan/maintain/productmanage/itemadd",
+            "/portal/maintain/productmanage/itemadd",
             this.axios.qs.stringify({...this.item,token:this.$store.state.token})
           )
           .then(response => {

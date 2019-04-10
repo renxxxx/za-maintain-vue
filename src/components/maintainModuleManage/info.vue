@@ -86,7 +86,7 @@ export default {
     refreshItem() {
       this.axios
         .post(
-          "/zhongan/maintain/maintainmodulemanage/item",
+          "/portal/maintain/maintainmodulemanage/item",
           this.axios.qs.stringify({
             itemId: this.$route.params.itemId,
             token: this.$store.state.token
@@ -114,7 +114,7 @@ export default {
       new Promise(a=> {
         this.axios
           .post(
-            "/zhongan/maintain/maintainmodulemanage/itemalter",
+            "/portal/maintain/maintainmodulemanage/itemalter",
             this.axios.qs.stringify({...this.item,token:this.$store.state.token})
           )
           .then(response => {

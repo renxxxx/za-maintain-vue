@@ -42,7 +42,7 @@ debugger
     this.$store.commit('token',token)
     this.axios
             .post(
-                    "/zhongan/maintain/useraction/loginrefresh",
+                    "/portal/maintain/useraction/loginrefresh",
                     this.axios.qs.stringify({ token })
             )
             .then(response => {
@@ -53,7 +53,7 @@ debugger
                   message: data.codeMsg,
                   type: "warning"
                 });
-                this.Cookies.remove("token",{ path: '/zhongan/maintain' })
+                this.Cookies.remove("token",{ path: '/portal/maintain' })
                 this.$store.commit('token',null)
                 this.$router.push('/login')
 

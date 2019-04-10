@@ -28,7 +28,7 @@ export default {
   methods: {
    logout(){
      debugger
-     this.Cookies.remove('token',{ path: '/zhongan/maintain' })
+     this.Cookies.remove('token',{ path: '/portal/maintain' })
        this.$store.commit('token',null)
      this.$router.push('/login')
    }

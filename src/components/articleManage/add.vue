@@ -192,7 +192,7 @@ export default {
       new Promise(a=> {
         this.axios
           .post(
-            "/zhongan/maintain/articlemanage/itemadd",
+            "/portal/maintain/articlemanage/itemadd",
             this.axios.qs.stringify({...this.item,introPics:this.thoseUtil.arrToSplit(this.item.introPics),token:this.$store.state.token})
           )
           .then(response => {

@@ -135,7 +135,7 @@ export default {
       new Promise(a => {
         this.axios
           .post(
-            "/zhongan/maintain/admanage/itemadd",
+            "/portal/maintain/admanage/itemadd",
             this.axios.qs.stringify({
               ...this.item,
               title: this.title,

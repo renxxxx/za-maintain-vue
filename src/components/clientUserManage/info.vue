@@ -142,7 +142,7 @@ export default {
     refreshItem() {
       this.axios
         .post(
-          "/zhongan/maintain/clientusermanage/item",
+          "/portal/maintain/clientusermanage/item",
           this.axios.qs.stringify({
             itemId: this.$route.params.itemId,
             token: this.$store.state.token
@@ -209,7 +209,7 @@ export default {
                     }
                     this.axios
                             .post(
-                                    "/zhongan/maintain/clientusermanage/itemalter",
+                                    "/portal/maintain/clientusermanage/itemalter",
                                     this.axios.qs.stringify({
                                       itemId:this.item.itemId,
                                       pwd,
@@ -256,7 +256,7 @@ export default {
               .then(({ value }) => {
                 this.axios
                         .post(
-                                "/zhongan/maintain/clientusermanage/itemalter",
+                                "/portal/maintain/clientusermanage/itemalter",
                                 this.axios.qs.stringify({
                                   itemId:this.item.itemId,
                                   frozenIf:1,
@@ -292,7 +292,7 @@ export default {
     }, unfreeze() {
       this.axios
               .post(
-                      "/zhongan/maintain/clientusermanage/itemalter",
+                      "/portal/maintain/clientusermanage/itemalter",
                       this.axios.qs.stringify({
                         itemId:this.item.itemId,
                         frozenIf:0,
@@ -321,7 +321,7 @@ export default {
       new Promise(a => {
         this.axios
           .post(
-            "/zhongan/maintain/clientusermanage/itemalter",
+            "/portal/maintain/clientusermanage/itemalter",
             this.axios.qs.stringify({
               ...this.item,
               token: this.$store.state.token

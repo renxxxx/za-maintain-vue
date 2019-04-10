@@ -25,7 +25,7 @@ export function uploadFile(fileDom, success) {
 
 export function getBigtxt(id, success) {
   if (id)
-    axios.get(`/zhongan/other/bigtxt/${id}/${id}`).then(response => {
+    axios.get(`/portal/other/bigtxt/${id}/${id}`).then(response => {
       success(response.data);
     });
 }

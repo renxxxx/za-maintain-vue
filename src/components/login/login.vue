@@ -76,7 +76,7 @@ export default {
       debugger;
       this.axios
         .post(
-          "/zhongan/maintain/useraction/login",
+          "/portal/maintain/useraction/login",
           this.axios.qs.stringify({
             username: this.username,
             pwd: this.password
@@ -95,7 +95,7 @@ export default {
           let token = data.data.token;
           this.Cookies.set("token", token, {
             expires: 30,
-            path: "/zhongan/maintain"
+            path: "/portal/maintain"
           });
           this.$store.commit('token',token)
           this.$router.push("/index");

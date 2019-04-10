@@ -224,7 +224,7 @@ const routes = [
 
 const router = new VueRouter({
   mode: "history",
-  base: "/zhongan/maintain",
+  base: "/portal/maintain",
   routes // (缩写) 相当于 routes: routes
 });
 

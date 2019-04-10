@@ -35,7 +35,7 @@ let maintainModule = {
   refresh() {
     let _this = this;
     jQuery.ajax({
-      url: "/zhongan/maintain/maintainmodulemanage/items",
+      url: "/portal/maintain/maintainmodulemanage/items",
       method: "post",
       data: { ps: 1000 },
       async: false,
@@ -84,7 +84,7 @@ let articleType = {
   refresh() {
     let _this = this;
     jQuery.ajax({
-      url: "/zhongan/maintain/articletypemanage/items",
+      url: "/portal/maintain/articletypemanage/items",
       method: "post",
       data: { ps: 1000, token: Cookies.get("token") },
       async: false,
@@ -117,7 +117,7 @@ let productType = {
   refresh() {
     let _this = this;
     jQuery.ajax({
-      url: "/zhongan/maintain/producttypemanage/items",
+      url: "/portal/maintain/producttypemanage/items",
       method: "post",
       data: { ps: 1000, token: Cookies.get("token") },
       async: false,
@@ -184,7 +184,7 @@ let adPlace = {
   refresh() {
     let _this = this;
     jQuery.ajax({
-      url: "/zhongan/maintain/adplacemanage/items",
+      url: "/portal/maintain/adplacemanage/items",
       method: "post",
       data: { ps: 1000, token: Cookies.get("token") },
       async: false,

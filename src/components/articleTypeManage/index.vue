@@ -144,7 +144,7 @@ export default {
 
       this.axios
         .post(
-          "/zhongan/maintain/articletypemanage/items",
+          "/portal/maintain/articletypemanage/items",
           this.axios.qs.stringify(queryObj)
         )
         .then(response => {

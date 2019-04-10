@@ -172,7 +172,7 @@ export default {
     itemDel(itemId) {
       this.axios
               .post(
-                      "/zhongan/maintain/maintainusermanage/itemdel",
+                      "/portal/maintain/maintainusermanage/itemdel",
                       this.axios.qs.stringify({itemId, token: this.$store.state.token})
               )
               .then(response => {
@@ -256,7 +256,7 @@ export default {
 
       this.axios
         .post(
-          "/zhongan/maintain/maintainusermanage/items",
+          "/portal/maintain/maintainusermanage/items",
                 this.axios.qs.stringify({...queryObj,token: this.$store.state.token})
         )
         .then(response => {
